@@ -1,111 +1,188 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Shroppie | Online Marketplace</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="UTF-8">
+<title>Shroppie | Online Marketplace</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f6f8;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+}
 
-    header {
-      background: #1a73e8;
-      color: white;
-      padding: 15px 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+header {
+  background: #1a73e8;
+  color: white;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-    header h1 {
-      margin: 0;
-      font-size: 24px;
-    }
+nav a {
+  color: white;
+  margin-left: 20px;
+  text-decoration: none;
+  font-weight: bold;
+}
 
-    nav a {
-      color: white;
-      margin-left: 20px;
-      text-decoration: none;
-      font-weight: bold;
-    }
+.hero {
+  padding: 60px 20px;
+  text-align: center;
+  background: linear-gradient(120deg, #1a73e8, #34a853);
+  color: white;
+}
 
-    .hero {
-      padding: 60px 20px;
-      text-align: center;
-      background: linear-gradient(120deg, #1a73e8, #34a853);
-      color: white;
-    }
+.section {
+  padding: 40px 20px;
+  max-width: 1100px;
+  margin: auto;
+}
 
-    .hero h2 {
-      font-size: 36px;
-    }
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
+  gap: 20px;
+}
 
-    .section {
-      padding: 40px 20px;
-      max-width: 1100px;
-      margin: auto;
-    }
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  text-align: center;
+}
 
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-    }
+button {
+  background: #1a73e8;
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
 
-    .card {
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      text-align: center;
-    }
+button:hover { background: #1558b0; }
 
-    button {
-      background: #1a73e8;
-      color: white;
-      border: none;
-      padding: 12px 18px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-    }
+.cart {
+  position: fixed;
+  top: 15px;
+  right: 20px;
+  background: white;
+  padding: 10px 15px;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  font-weight: bold;
+}
 
-    button:hover {
-      background: #1558b0;
-    }
+.hidden { display: none; }
 
-    footer {
-      background: #1a73e8;
-      color: white;
-      text-align: center;
-      padding: 20px;
-      margin-top: 40px;
-    }
-  </style>
+form input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+}
+
+footer {
+  background: #1a73e8;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+</style>
 </head>
 
 <body>
 
 <header>
-  <h1>shroppie.com</h1>
+  <h2>shroppie.com</h2>
   <nav>
     <a href="#shop">Shop</a>
-    <a href="#vendors">Sell on Shroppie</a>
-    <a href="#ads">Free Ads</a>
+    <a href="#vendors">Sell</a>
+    <a href="#cartSection">Cart</a>
   </nav>
 </header>
 
+<div class="cart">🛒 Cart: <span id="cartCount">0</span></div>
+
 <section class="hero">
-  <h2>Buy Anything. Sell Everything.</h2>
-  <p>India’s next multi-vendor online marketplace</p>
+  <h1>Buy Anything. Sell Everything.</h1>
+  <p>A real multi-vendor marketplace MVP</p>
 </section>
 
+<!-- SHOP -->
 <section id="shop" class="section">
-  <h2>Featured Products</h2>
-  <div class="cards">
-    <div class="card">
-      <h3>Wireless Headphones<
+<h2>Products</h2>
+<div class="cards">
+  <div class="card">
+    <h3>Wireless Headphones</h3>
+    <p>$49.99</p>
+    <button onclick="addToCart('Wireless Headphones')">Buy Now</button>
+  </div>
+  <div class="card">
+    <h3>Men’s Sneakers</h3>
+    <p>$69.99</p>
+    <button onclick="addToCart('Men’s Sneakers')">Buy Now</button>
+  </div>
+  <div class="card">
+    <h3>Kitchen Mixer</h3>
+    <p>$89.99</p>
+    <button onclick="addToCart('Kitchen Mixer')">Buy Now</button>
+  </div>
+</div>
+</section>
+
+<!-- CART -->
+<section id="cartSection" class="section hidden">
+<h2>Your Cart</h2>
+<ul id="cartItems"></ul>
+<button onclick="checkout()">Proceed to Checkout</button>
+</section>
+
+<!-- VENDOR REGISTRATION -->
+<section id="vendors" class="section">
+<h2>Sell on Shroppie</h2>
+
+<form onsubmit="registerVendor(event)">
+  <input type="text" id="businessName" placeholder="Business Name" required>
+  <input type="email" id="email" placeholder="Email" required>
+  <input type="text" id="productType" placeholder="Product Type" required>
+  <button type="submit">Register Business</button>
+</form>
+
+<p id="vendorMsg"></p>
+</section>
+
+<footer>
+© 2025 shroppie.com — Marketplace MVP
+</footer>
+
+<script>
+let cart = [];
+
+function addToCart(product) {
+  cart.push(product);
+  document.getElementById("cartCount").innerText = cart.length;
+  document.getElementById("cartSection").classList.remove("hidden");
+
+  const li = document.createElement("li");
+  li.innerText = product;
+  document.getElementById("cartItems").appendChild(li);
+}
+
+function checkout() {
+  alert("Checkout coming soon 🚀 (Stripe integration next)");
+}
+
+function registerVendor(e) {
+  e.preventDefault();
+  document.getElementById("vendorMsg").innerText =
+    "✅ Business registered! Our team will contact you.";
+}
+</script>
+
+</body>
+</html>
